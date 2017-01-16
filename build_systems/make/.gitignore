@@ -1,0 +1,4 @@
+my_program
+*.o
+.DS_Store
+*.d

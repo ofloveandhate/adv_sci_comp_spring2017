@@ -1,0 +1,27 @@
+# Makemodule.am for src/my_cool_library
+
+lib_LTLIBRARIES += libmy_cool_library.la
+
+arbitrary_name_a = \
+  src/my_cool_library/other1.cpp \
+  src/my_cool_library/other2.cpp
+
+arbitrary_name_b = \
+  include/my_cool_library/other1.hpp \
+  include/my_cool_library/other2.hpp
+
+arbitrary_name_c = \
+  $(arbitrary_name_a) $(arbitrary_name_b)
+
+
+libmy_cool_library_la_SOURCES = \
+  $(arbitrary_name_c)
+
+libmy_cool_library_ladir = $(rootincludedir)
+# rootincludedir is defined in the top-level Makefile.am
+libmy_cool_library_la_HEADERS = \
+  $(arbitrary_name_b)
+
+#LDADD is for programs.  in contrast, LIBADD is for libraries.
+#libmy_cool_library_la_LIBADD =
+#commented out because not adding additional dependencies right now

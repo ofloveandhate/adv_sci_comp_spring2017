@@ -1,0 +1,11 @@
+#this is test/Makemodule.am
+
+EXTRA_PROGRAMS += my_cool_test
+TESTS += my_cool_test
+
+my_cool_test_SOURCES = \
+	test/my_cool_test.cpp
+
+my_cool_test_LDADD = $(MPI_CXXLDFLAGS) $(BOOST_UNIT_TEST_FRAMEWORK_LIB) libmy_cool_library.la
+
+my_cool_test_CXXFLAGS = $(BOOST_CPPFLAGS)

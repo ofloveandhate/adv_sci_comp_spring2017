@@ -1,0 +1,4 @@
+env = Environment(CXXFLAGS="-std=c++11",
+                 CPPPATH="./include"); #CPPPATH=os.environ["HOME"] +
+
+env.Program(target = 'my_program', source = ["src/other1.cpp", "src/other2.cpp", "src/main.cpp"])

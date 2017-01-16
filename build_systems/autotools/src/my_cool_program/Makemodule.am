@@ -1,0 +1,20 @@
+# Makemodule.am for src/my_cool_program
+
+bin_PROGRAMS += my_cool_program
+
+qwer = \
+  include/my_cool_program/header.hpp
+
+asdf = \
+  src/my_cool_program/main.cpp
+
+
+my_cool_program_SOURCES = \
+  $(qwer) $(asdf)
+
+
+#LDADD is for programs.  in contrast, LIBADD is for libraries.
+my_cool_program_LDADD = \
+  libmy_cool_library.la
+
+# my_cool_program_CXXFLAGS = #commented out because blank
