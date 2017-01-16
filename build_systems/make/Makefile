@@ -47,6 +47,7 @@ install : all
 
 # a general rule for generating object files.
 obj/%.o : src/%.cpp
+	@mkdir -p obj
 	$(CXX) $(CC_FLAGS) $(ARGS) -c -o $@ $<
 
 clean :
