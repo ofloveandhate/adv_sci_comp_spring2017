@@ -127,7 +127,21 @@ public:
 		return double(numerator_)/double(denominator_);
 	}
 
-	friend std::istream& operator>>(std::istream&, Rational&);
+	friend 
+	inline
+	std::istream& operator>>(std::istream& in, Rational<T> & r)
+	{
+		// this function is clearly wrong.
+		return in;
+	}
+
+	friend
+	inline
+	std::ostream& operator<<(std::ostream& out, Rational<T> const& r)
+	{
+		out << r.Numerator() << "/" << r.Denominator();
+		return out;
+	}
 private:
 	T numerator_;
 	T denominator_;
@@ -157,21 +171,6 @@ public:
 	//
 	//////////////
 
-	template <typename T>
-	inline
-	std::ostream& operator<<(std::ostream& out, Rational<T> const& r)
-	{
-		out << r.Numerator() << "/" << r.Denominator();
-		return out;
-	}
-
-	template <typename T>
-	inline
-	std::istream& operator>>(std::istream& in, Rational<T> & r)
-	{
-		// this function is clearly wrong.
-		return in;
-	}
 
 
 	// overload the pow function
