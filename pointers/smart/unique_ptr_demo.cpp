@@ -29,7 +29,7 @@ namespace advscicomp{
 	}
 
 
-	void DoSomethingAndConsume(std::unique_ptr<int> && ip)
+	void DoSomethingAndConsume(std::unique_ptr<ComplicatedType> && ip)
 	{
 		std::cout << *ip-1 << '\n';
 	}
