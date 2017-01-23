@@ -25,16 +25,16 @@ class Rational
 {
 public:
 	// default constructor.  makes the number 0 by default
-	Rational() : numerator_(0), denominator_(1)
+	Rational<T>() : numerator_(0), denominator_(1)
 	{}
 
 	// constructor taking two integers, and making the corresponding Rational.
-	Rational(T n, T d) : numerator_(n), denominator_(d)
+	Rational<T>(T n, T d) : numerator_(n), denominator_(d)
 	{
 	}
 
 	// constructor taking a single integer, so the Denominator is 1
-	Rational(T i) : numerator_(i), denominator_(1)
+	Rational<T>(T i) : numerator_(i), denominator_(1)
 	{}
 
 
@@ -48,7 +48,7 @@ public:
 
 
 	// multiplication =
-	Rational& operator*=(Rational const& rhs)
+	Rational<T>& operator*=(Rational<T> const& rhs)
 	{
 		numerator_ *= rhs.Numerator(); // this is the left hand side's numerator
 		denominator_ *= rhs.Denominator();
@@ -56,7 +56,7 @@ public:
 	}
 
 	// division =
-	Rational& operator/=(Rational const& rhs)
+	Rational<T>& operator/=(Rational<T> const& rhs)
 	{
 		numerator_ *= rhs.Numerator(); // this is the left hand side's numerator
 		denominator_ *= rhs.Denominator();
@@ -64,7 +64,7 @@ public:
 	}
 
 	// addition =
-	Rational& operator+=(Rational const& rhs)
+	Rational<T>& operator+=(Rational<T> const& rhs)
 	{
 		numerator_ += rhs.Numerator(); // this is the left hand side's numerator
 		denominator_ += rhs.Denominator();
@@ -72,7 +72,7 @@ public:
 	}
 
 	// subtraction =
-	Rational& operator-=(Rational const& rhs)
+	Rational<T>& operator-=(Rational<T> const& rhs)
 	{
 		numerator_ -= rhs.Numerator(); // this is the left hand side's numerator
 		denominator_ -= rhs.Denominator();
@@ -80,23 +80,15 @@ public:
 	}
 
 	// negation
-	Rational operator-() const
+	Rational<T> operator-() const
 	{
-		return Rational(-Numerator(), -Denominator());
+		return Rational<T>(-Numerator(), -Denominator());
 	}
 
 
 	friend
 	inline
-	Rational operator*(Rational lhs, Rational const& rhs)
-	{
-		lhs*=rhs;
-		return lhs;
-	}
-
-	friend
-	inline
-	Rational operator/(Rational lhs, Rational const& rhs)
+	Rational<T> operator*(Rational<T> lhs, Rational<T> const& rhs)
 	{
 		lhs*=rhs;
 		return lhs;
@@ -104,7 +96,7 @@ public:
 
 	friend
 	inline
-	Rational operator+(Rational lhs, Rational const& rhs)
+	Rational<T> operator/(Rational<T> lhs, Rational<T> const& rhs)
 	{
 		lhs*=rhs;
 		return lhs;
@@ -112,7 +104,15 @@ public:
 
 	friend
 	inline
-	Rational operator-(Rational lhs, Rational const& rhs)
+	Rational<T> operator+(Rational<T> lhs, Rational<T> const& rhs)
+	{
+		lhs*=rhs;
+		return lhs;
+	}
+
+	friend
+	inline
+	Rational<T> operator-(Rational<T> lhs, Rational<T> const& rhs)
 	{
 		lhs*=rhs;
 		return lhs;
