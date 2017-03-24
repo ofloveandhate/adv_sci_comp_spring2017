@@ -168,6 +168,7 @@ void LU_Col_InPlace(Matrix<N,N,T> & A)
 	}
 }
 
+template<SizeT N, typename T>
 std::tuple<Matrix<N,N,T>, Matrix<N,N,T>> UnpackToLU(Matrix<N,N,T> const& lu_result)
 {
 	Matrix<N,N,T> L{};
