@@ -1,7 +1,7 @@
 
 // base LU decomposition algorithm, to parallelize
 
-#include <mpi.h> // access to the MPI library
+
 
 #include <array> // c++11 array
 #include <iostream> 
