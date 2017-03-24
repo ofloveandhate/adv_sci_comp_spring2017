@@ -22,7 +22,7 @@ namespace test
 {
 	using namespace advscicomp;
 
-	constexpr SizeT tested_size = 6;
+	constexpr SizeT tested_size = 50;
 
 
 

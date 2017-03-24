@@ -18,7 +18,7 @@ namespace test
 	using namespace advscicomp;
 
 
-	constexpr SizeT tested_size = 8;
+	constexpr SizeT tested_size = 50;
 
 
 	namespace parallel
