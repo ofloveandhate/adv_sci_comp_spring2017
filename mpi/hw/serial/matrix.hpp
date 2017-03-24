@@ -4,7 +4,7 @@
 #pragma once
 
 #include "random.hpp"
-
+#include <array>
 
 namespace advscicomp{
 

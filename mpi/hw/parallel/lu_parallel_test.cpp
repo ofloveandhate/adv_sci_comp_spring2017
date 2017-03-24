@@ -1,17 +1,13 @@
 
 
-#include <mpi.h> // access to the MPI library
 
-#include <array> // c++11 array
 #include <iostream>
 #include <iomanip>
-#include <random>
-#include <tuple>
+
 #include <assert.h>
-#include <cmath>
+
 #include <sstream>
 #include <fstream>
-#include <vector>
 
 #include "../serial/lu.hpp"
 #include "lu_parallel.hpp"
