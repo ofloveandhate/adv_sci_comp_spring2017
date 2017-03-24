@@ -4,6 +4,8 @@
 #pragma once
 
 #include <mpi.h> // access to the MPI library
+#include <complex>
+
 
 namespace advscicomp{
 
@@ -46,6 +48,15 @@ struct  NumTraits<double>
 {
 	static const auto MPI_Type = MPI_DOUBLE;
 };
+
+
+template<>
+struct  NumTraits<std::complex<double>>
+{
+	static const auto MPI_Type = MPI_CXX_DOUBLE_COMPLEX;
+};
+
+
 
 }
 
