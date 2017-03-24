@@ -91,24 +91,47 @@ std::tuple<Matrix<N,N,T>, Matrix<N,N,T>> LU(Matrix<N,N,T> const& A)
 template<SizeT N, typename T>
 void LU_InPlace(Matrix<N,N,T> & A)
 {
-	for (unsigned k{0}; k<N; ++k)
+	for (unsigned k{0}; k<N; ++k) // for every row
 	{
-		for (unsigned m{k}; m<N; ++m)
-			for (unsigned j{0}; j<k; ++j)
-				A[k][m] -= A[k][j]*A[j][m];
+		// first do the U part
+		for (unsigned m{k}; m<N; ++m) // for every column to the right, starting at the diagonal entry in row k
+			for (unsigned j{0}; j<k; ++j)  // for each row above
+				A[k][m] -= A[k][j]*A[j][m];  // do a gaussian row elimination from row j above
 		
-		for (unsigned i{k+1}; i<N; ++i)
+		// then the L part
+		// these numbers essentially record the steps necessary to UNDO the gaussian elimination we just did
+		for (unsigned i{k+1}; i<N; ++i) // for each row strictly below the current
 		{
-			for (unsigned j{0}; j<k; ++j)
+			// this loop takes subtracts from the lower entry, 
+			// the outer product of the subvector to the left of this lower entry (Aik), 
+			// and the subvector above the diagonal entry.
+			for (unsigned j{0}; j<k; ++j) // for each column to the right, including this, up to but not incl the diagonal
 				A[i][k] -= A[i][j]*A[j][k];
-				
-			A[i][k] /= A[k][k];
+			
+			// then, we finish by dividing by the diagonal element
+			A[i][k] /= A[k][k]; // divide by the kth diagonal element
 		}
 	}
 }
 
 
 template<SizeT N, typename T>
+void LU_Col_InPlace(Matrix<N,N,T> & A)
+{
+	for (unsigned k{0}; k<N; ++k) // for every column
+	{
+		// first do the L part
+		// then, we finish by dividing by the diagonal element
+		for (unsigned i{k+1}; i<N; ++i) // for each row strictly below the diagonal in the current col
+			A[i][k] /= A[k][k]; // divide by the kth diagonal element
+
+
+		for (unsigned j{k+1}; j<N; ++j) 
+			for (unsigned i{k+1}; i<N; ++i)  
+				A[i][j] -= A[i][k]*A[k][j];  // do a gaussian row elimination from row j above
+	}
+}
+
 std::tuple<Matrix<N,N,T>, Matrix<N,N,T>> UnpackToLU(Matrix<N,N,T> const& lu_result)
 {
 	Matrix<N,N,T> L{};
