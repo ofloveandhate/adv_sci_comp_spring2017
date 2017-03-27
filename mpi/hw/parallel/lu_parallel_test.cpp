@@ -43,11 +43,7 @@ namespace test
 
 			if (ParC::my_id == ParC::head)
 			{
-				// std::cout << "A = " << A_original << '\n';
-
 				LU_Col_InPlace(A2);
-				// std::cout << "serial_decomposed = " << A2 << '\n';
-				// std::cout << "parallel_decomposed = " << A << '\n';
 				using std::abs;
 				for (unsigned ii{0}; ii<tested_size; ++ii)
 					for (unsigned jj{0}; jj<tested_size; ++jj)
@@ -78,11 +74,7 @@ namespace test
 
 			if (ParC::my_id == ParC::head)
 			{
-				std::cout << "A = " << A_original << '\n';
-
 				LU_InPlace(A2);
-				std::cout << "serial_decomposed = " << A2 << '\n';
-				std::cout << "parallel_decomposed = " << A << '\n';
 				using std::abs;
 				for (unsigned ii{0}; ii<tested_size; ++ii)
 					for (unsigned jj{0}; jj<tested_size; ++jj)
@@ -91,11 +83,6 @@ namespace test
 							std::cout << "fail at A[" << ii << "][" << jj << "]\n";
 						}
 			}
-			MPI_Barrier(MPI_COMM_WORLD);
-			if (ParC::my_id == ParC::head+1)
-			{
-				std::cout << "parallel_decomposed = " << A << '\n';
-			}
 		}
 
 
@@ -103,6 +90,9 @@ namespace test
 		{
 			LU_Row_InPlaceProducesOriginalMatrix();
 			LU_Col_InPlaceProducesOriginalMatrix();
+
+			if (ParC::my_id == ParC::head)
+				std::cout << "parallel checks complete \n\n";
 		}
 
 
