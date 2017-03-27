@@ -150,7 +150,7 @@ void LU_InPlace_Row_MPI(Matrix<N,N,T> & A)
 	DistributeMatrixAllAll(A); 
 	
 
-	for (unsigned k=0; k<N-1; k++) //no need to do the Nth iteration.
+	for (unsigned k=0; k<N-1; ++k) //no need to do the Nth iteration.
 	{
 		MPI_Bcast(&A[k][k], N-k, NumTraits<T>::MPI_Type, Possessor<N>(k), MPI_COMM_WORLD);
 
@@ -161,23 +161,13 @@ void LU_InPlace_Row_MPI(Matrix<N,N,T> & A)
 				A[i][k] /= A[k][k];
 			}
 		}
-			// // broadcast L column k to all.
-			// for (unsigned i=k+1; i<N; ++i)
-			// {
-			// in principle, send only to those processes which still need to do work
-				// this bcast sends to too many people
-				// it also is garbage, because it sends one-at-a-time, which just kills.
-				
-			// }
 
 			//do the gaussian elimination on columns owned by this process.
-		for (int j=k+1; j<N; ++j)
+		for (unsigned i=k+1; i<N; ++i)
 		{
-			for (unsigned i=k+1; i<N; ++i)
-			{
-				if (IsPossessor<N>(i))
+			if (IsPossessor<N>(i))
+				for (int j=k+1; j<N; ++j)
 					A[i][j] -= A[i][k]*A[k][j];
-			}
 		}
 		
 	}
