@@ -25,14 +25,14 @@ std::tuple<Matrix<N,N,T>, Matrix<N,N,T>> LU(Matrix<N,N,T> const& A)
 		for (unsigned jj{ii}; jj<N; ++jj)
 		{
 			U[ii][jj] = A[ii][jj];
-			for (unsigned kk{0}; kk<ii; kk++)
+			for (unsigned kk{0}; kk<ii; ++kk)
 				U[ii][jj] -= L[ii][kk]*U[kk][jj];
 		}
 
 		for (unsigned jj{ii+1}; jj<N; ++jj)
 		{
 			L[jj][ii] = A[jj][ii];
-			for (unsigned kk{0}; kk<ii; kk++)
+			for (unsigned kk{0}; kk<ii; ++kk)
 				L[jj][ii] -= L[jj][kk]*U[kk][ii];
 			L[jj][ii] = L[jj][ii] / U[ii][ii];
 		}
