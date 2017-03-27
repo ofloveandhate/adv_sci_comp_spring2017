@@ -46,14 +46,14 @@ struct NumTraits
 template<>
 struct  NumTraits<double>
 {
-	static const auto MPI_Type = MPI_DOUBLE;
+	static constexpr auto MPI_Type = MPI_DOUBLE;
 };
 
 
 template<>
 struct  NumTraits<std::complex<double>>
 {
-	static const auto MPI_Type = MPI_CXX_DOUBLE_COMPLEX;
+	static constexpr auto MPI_Type = MPI_CXX_DOUBLE_COMPLEX;
 };
 
 
