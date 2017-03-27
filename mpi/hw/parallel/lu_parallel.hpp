@@ -120,9 +120,9 @@ void LU_InPlace_Col_MPI(Matrix<N,N,T> & A)
 		}
 
 		//do the gaussian elimination on columns owned by this process.
-		for (int i=k+1; i<N; ++i)
+		for (int j=k+1; j<N; ++j)
 		{
-			for (int j=k+1; j<N; ++j)
+			for (int i=k+1; i<N; ++i)
 			{
 				if (IsPossessor<N>(j)){ // only do the math for the columns owned by this process.
 					A[i][j] -= A[i][k]*A[k][j];
