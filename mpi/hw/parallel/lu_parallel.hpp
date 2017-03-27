@@ -101,7 +101,7 @@ void LU_InPlace_Col_MPI(Matrix<N,N,T> & A)
 	DistributeMatrixAllAll(A); 
 	
 
-	for (unsigned k=0; k<N-1; k++) //no need to do the Nth iteration.
+	for (unsigned k=0; k<N-1; ++k) //no need to do the Nth iteration.
 	{
 		if (IsPossessor<N>(k)){ 
 			for (unsigned i=k+1; i<N; ++i)
@@ -114,18 +114,18 @@ void LU_InPlace_Col_MPI(Matrix<N,N,T> & A)
 		for (unsigned i=k+1; i<N; ++i)
 		{
 		// in principle, send only to those processes which still need to do work
-			// this bcase sends to too many people
+			// this bcast sends to too many people
 			// it also is garbage, because it sends one-at-a-time, which just kills.
 			MPI_Bcast(&A[i][k], 1, NumTraits<T>::MPI_Type, Possessor<N>(k), MPI_COMM_WORLD);
 		}
 
 		//do the gaussian elimination on columns owned by this process.
-		for (int j=k+1; j<N; ++j)
+		for (int i=k+1; i<N; ++i)
 		{
-			for (int i=k+1; i<N; ++i)
+			for (int j=k+1; j<N; ++j)
 			{
-				if (IsPossessor<N>(i)){ // only do the math for the columns owned by this process.
-					A[j][i] -= A[j][k]*A[k][i];
+				if (IsPossessor<N>(j)){ // only do the math for the columns owned by this process.
+					A[i][j] -= A[i][k]*A[k][j];
 				}
 			}
 		}
@@ -138,6 +138,58 @@ void LU_InPlace_Col_MPI(Matrix<N,N,T> & A)
 			MPI_Bcast(&A[i][k], 1, NumTraits<T>::MPI_Type, Possessor<N>(k), MPI_COMM_WORLD);
 	}
 }
+
+
+
+
+template<SizeT N, typename T>
+void LU_InPlace_Row_MPI(Matrix<N,N,T> & A)
+{
+	// everyone gets the entire matrix.  
+	// this is incorrect, each process needs only its own rows at first
+	DistributeMatrixAllAll(A); 
+	
+
+	for (unsigned k=0; k<N-1; k++) //no need to do the Nth iteration.
+	{
+		MPI_Bcast(&A[k][k], N-k, NumTraits<T>::MPI_Type, Possessor<N>(k), MPI_COMM_WORLD);
+
+		for (unsigned i=k+1; i<N; ++i)
+		{
+			if (IsPossessor<N>(i)) // only do the math for the columns owned by this process.
+			{
+				A[i][k] /= A[k][k];
+			}
+		}
+			// // broadcast L column k to all.
+			// for (unsigned i=k+1; i<N; ++i)
+			// {
+			// in principle, send only to those processes which still need to do work
+				// this bcast sends to too many people
+				// it also is garbage, because it sends one-at-a-time, which just kills.
+				
+			// }
+
+			//do the gaussian elimination on columns owned by this process.
+		for (int j=k+1; j<N; ++j)
+		{
+			for (unsigned i=k+1; i<N; ++i)
+			{
+				if (IsPossessor<N>(i))
+					A[i][j] -= A[i][k]*A[k][j];
+			}
+		}
+		
+	}
+
+	// at this point, each process has all L entries, and its own columns of U.  they need to share their columns of U with each other.
+	for (int k=1; k<N; ++k)
+	{
+			MPI_Bcast(&A[k][0], k+1, NumTraits<T>::MPI_Type, Possessor<N>(k), MPI_COMM_WORLD);
+	}
+}
+
+
 
 
 } // namespace

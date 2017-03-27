@@ -50,7 +50,7 @@ namespace performance
 			auto A = A_original;
 
 			std::chrono::time_point<std::chrono::steady_clock> start_time = std::chrono::steady_clock::now();
-				LU_InPlace_Col_MPI(A);
+				LU_InPlace_Row_MPI(A);
 			etime += std::chrono::steady_clock::now() - start_time;
 			++count;
 		}
@@ -58,7 +58,7 @@ namespace performance
 		static
 		void SingleIterationWorker()
 		{
-			LU_InPlace_Col_MPI(A_original);
+			LU_InPlace_Row_MPI(A_original);
 		}
 
 		static void NewA()
@@ -102,9 +102,9 @@ int main(int argc, char** argv)
 	PC::Init(&argc, &argv);
 
 	if (PC::my_id == PC::head)
-		performance::Tester<200>::RunHead(4,5);
+		performance::Tester<500>::RunHead(4,5);
 	else
-		performance::Tester<200>::RunWorker(4,5);
+		performance::Tester<500>::RunWorker(4,5);
 
 	PC::Finalize();
 	return 0;

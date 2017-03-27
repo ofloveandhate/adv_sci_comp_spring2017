@@ -16,6 +16,8 @@ using SizeT = unsigned long;
 template<SizeT M, SizeT N, typename T = double>
 using Matrix =  std::array<std::array<T, N>, M>;
 
+template<SizeT M, SizeT N, typename T = double>
+using MatrixColMaj =  std::array<std::array<T, M>, N>;
 
 template<SizeT N, typename T = double>
 using Vector = std::array<T, N>;
