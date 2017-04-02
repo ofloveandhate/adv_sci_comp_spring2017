@@ -5,6 +5,8 @@
 
 #include "random.hpp"
 #include <array>
+#include <iostream>
+#include <iomanip>
 
 namespace advscicomp{
 
@@ -70,6 +72,15 @@ Matrix<N,N,T> Identity()
 	return A;
 }
 
+
+template<SizeT N, typename T = double>
+Vector<N,T> RandomVec()
+{
+	auto v = Vector<N,T>{};
+	for (SizeT ii{0}; ii<N; ++ii)
+		v[ii] = Random<T>::Generate();
+	return v;
+}
 
 template<SizeT M, SizeT N = M, typename T = double>
 Matrix<M,N,T> RandomMat()
