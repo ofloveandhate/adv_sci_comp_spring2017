@@ -4,7 +4,7 @@
 
 #include <omp.h>
 
-#include <cstdlib	>
+#include <stdio.h>
 
 
 int main() {
