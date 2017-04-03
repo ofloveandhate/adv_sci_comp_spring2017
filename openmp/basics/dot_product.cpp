@@ -13,7 +13,7 @@ namespace advscicomp{
 template<SizeT N, typename T>
 T Dot(Vector<N,T> const& v, Vector<N,T> const& w)
 {
-	T result;
+	T result{0};
 
 	#pragma omp parallel
 	{ // start parallel region
