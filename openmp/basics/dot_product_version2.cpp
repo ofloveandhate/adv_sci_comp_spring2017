@@ -17,7 +17,7 @@ T Dot(Vector<N,T> const& v, Vector<N,T> const& w)
 	T result{0};
 
 	#pragma omp parallel for reduction (+:result)
-	for (int ii = 0; ii<N; ++ii)
+	for (SizeT ii = 0; ii<N; ++ii)
 	{
 		result += v[ii] * w[ii];
 	}
@@ -38,7 +38,7 @@ void InnerProduct()
 
 	auto a = Vector<tested_size>{};
 	auto b = Vector<tested_size>{};
-	for (int ii=0; ii<tested_size; ++ii)
+	for (SizeT ii=0; ii<tested_size; ++ii)
 	{
 		a[ii] = 1;
 		b[ii] = 2;
@@ -68,13 +68,6 @@ void RunSuite()
 int main(int argc, char** argv)
 {
 	using namespace advscicomp;
-
-	constexpr SizeT tested_size = 10000;
-
-	
-
-	const auto a = RandomVec<tested_size>();
-	const auto b = RandomVec<tested_size>();
 
 	test::RunSuite();
 
