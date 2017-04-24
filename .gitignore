@@ -1,2 +1,3 @@
 *.dsym
 a.out
+*.o
