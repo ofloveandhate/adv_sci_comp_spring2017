@@ -42,6 +42,29 @@ Matrix<M,P,T> operator*(Matrix<M,N,T> const& A, Matrix<N,P,T> const& B)
 
 
 
+template<SizeT M, SizeT N, typename T>
+Matrix<M,N,T> operator-(Matrix<M,N,T> A, Matrix<M,N,T> const& B)
+{
+	for (unsigned ii{0}; ii<M; ++ii)
+		for (unsigned jj{0}; jj<N; ++jj)
+			A[ii][jj] -= B[ii][jj];
+
+	return A;
+}
+
+template<SizeT M, SizeT N, typename T>
+T NormInf(Matrix<M,N,T> const& A)
+{
+	using std::abs;
+	T m{0};
+	for (const auto& a : A)
+		for (const auto& b : a)
+			if (abs(b) > m)
+				m = b;
+
+	return m;
+}
+
 
 template<SizeT M, SizeT N, typename T>
 std::ostream& operator<<(std::ostream & out, Matrix<M,N,T> const& A)

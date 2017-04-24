@@ -1,22 +1,11 @@
 #include <iostream>
-#include <chrono>
+
+#include "timer.hpp"
 #include "matrix.hpp"
 
 using namespace advscicomp;
 
-class Timer
-{
-public:
-	Timer() : start_time(std::chrono::system_clock::now())
-	{ }
-
-	~Timer()
-	{
-		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_time).count() << std::endl;
-	}
-private:
-	std::chrono::time_point<std::chrono::system_clock> start_time;
-};
+// parallelized???
 
 template<SizeT M, SizeT N, SizeT P, typename T>
 Matrix<M,P,T> MultiplyACC(Matrix<M,N,T> const& A, Matrix<N,P,T> const& B)
@@ -25,10 +14,13 @@ Matrix<M,P,T> MultiplyACC(Matrix<M,N,T> const& A, Matrix<N,P,T> const& B)
 	auto res = Matrix<M,P,T>{};
 #pragma acc kernels
 {
-
+	#pragma acc loop independent
 	for (unsigned ii{0}; ii<M; ++ii)
+		#pragma acc loop independent
 		for (unsigned jj{0}; jj<P; ++jj)
+			#pragma acc loop independent 
 			for (unsigned kk{0}; kk<N; ++kk)
+				#pragma acc atomic
 				res[ii][jj] += A[ii][kk]*B[kk][jj];
 } // kernels
 
@@ -36,13 +28,30 @@ Matrix<M,P,T> MultiplyACC(Matrix<M,N,T> const& A, Matrix<N,P,T> const& B)
 }
 
 
+void testmul()
+{
+	double tol = 1e-7;
+
+	constexpr int N = 32;
+
+	auto A = RandomMat<N,N,double>();
+	auto B = RandomMat<N,N,double>();
+
+	auto C = MultiplyACC(A,B);
+
+	auto C_tilde = A*B;
+
+
+	if (NormInf(C_tilde - C) > tol)
+		std::cout << "fail\n";
+}
+
+
 int main()
 {
 	Timer t;
-	auto A = RandomMat<5,5,double>();
-	auto B = RandomMat<5,5,double>();
-
-	auto C = MultiplyACC(A,B);
+	
+	testmul();
 
 
 	return 0;
