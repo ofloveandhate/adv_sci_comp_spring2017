@@ -5,14 +5,6 @@
 
 using namespace advscicomp;
 
-// parallelized???
-// std::__1::array<std::__1::array<T4, T3>, T1> MultiplyACC<(unsigned long)5, (unsigned long)5, (unsigned long)5, double>(const std::__1::array<std::__1::array<T4, T2>, T1> &, const std::__1::array<std::__1::array<T4, T3>, T2> &):
-//      18, Loop is parallelizable
-//          Generating Multicore code
-//          18, #pragma acc loop gang
-//      19, Loop is parallelizable
-//      20, Complex loop carried dependence of  prevents parallelization
-
 
 template<typename T>
 Matrix<T> MultiplyACC(Matrix<T> A, Matrix<T> B, int M, int N, int P)
