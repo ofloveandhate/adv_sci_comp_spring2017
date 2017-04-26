@@ -15,7 +15,7 @@ using namespace advscicomp;
 
 
 template<typename T>
-Matrix<T> MultiplyACC(Matrix<T> const& A, Matrix<T> const& B, int M, int N, int P)
+Matrix<T> MultiplyACC(Matrix<T> A, Matrix<T> B, int M, int N, int P)
 {
 
 	auto res = MakeMatrix<T>(M,P);
@@ -48,9 +48,11 @@ void testmul()
 
 	auto A = RandomMat<double>(N,N);
 	auto B = RandomMat<double>(N,N);
-
-	auto C = MultiplyACC(A,B, N,N,N);
-
+	Matrix<double> C;
+	{
+	  Timer t;
+	  C = MultiplyACC(A,B, N,N,N);
+	}
 	auto C_tilde = mul(A,B,N,N,N);
 	auto diff = sub(C_tilde, C, N,N);
 
@@ -68,9 +70,7 @@ void testmul()
 
 int main()
 {
-	Timer t;
-	
-	testmul();
+        testmul();
 
 
 	return 0;
