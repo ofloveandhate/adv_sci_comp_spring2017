@@ -20,7 +20,7 @@ Matrix<T> MultiplyACC(Matrix<T> const& A, Matrix<T> const& B, int M, int N, int 
 
 	auto res = MakeMatrix<T>(M,P);
 
-#pragma acc kernels
+#pragma acc kernels copyin(A[0:M][0:N]) copyin(B[0:N][0:P]) copy(res[0:M][0:P])
 {
 	#pragma acc for independent
 	for (unsigned ii{0}; ii<M; ++ii)
